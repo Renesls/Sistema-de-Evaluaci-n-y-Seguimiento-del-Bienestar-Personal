@@ -11,10 +11,10 @@ import com.example.sistemabienestarpersonal.ui.screen.TestScreen
 fun NavGraph() {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = "welcome") {
+    NavHost(navController, startDestination = "test") {
 
         composable("test") {
-            TestScreen(navController,)
+            TestScreen(navController)
         }
 
         composable("result/{data}") { backStackEntry ->
