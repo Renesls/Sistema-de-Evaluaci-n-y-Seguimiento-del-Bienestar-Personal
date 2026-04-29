@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.sistemabienestarpersonal.ui.screen.ResultScreen
+import com.example.sistemabienestarpersonal.ui.screen.TestScreen
 
 @Composable
 fun NavGraph() {
@@ -11,20 +13,13 @@ fun NavGraph() {
 
     NavHost(navController, startDestination = "welcome") {
 
-        composable("welcome") {
-            WelcomeScreen(navController)
-        }
-
         composable("test") {
-            TestScreen(navController)
+            TestScreen(navController,)
         }
 
-        composable("result") {
-            ResultScreen(navController)
-        }
-
-        composable("home") {
-            HomeScreen()
+        composable("result/{data}") { backStackEntry ->
+            val data = backStackEntry.arguments?.getString("data") ?: ""
+            ResultScreen(data, navController)
         }
     }
 }
