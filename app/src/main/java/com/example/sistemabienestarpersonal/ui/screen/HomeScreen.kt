@@ -57,30 +57,6 @@ fun HomeScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-//        // Daily Wellness Card
-//        Card(
-//            modifier = Modifier.fillMaxWidth(),
-//            shape = RoundedCornerShape(20.dp),
-//            colors = CardDefaults.cardColors(
-//                containerColor = Color(0xFFBEE7E8)
-//            )
-//        ) {
-//            Column(modifier = Modifier.padding(20.dp)) {
-//                Text(
-//                    text = "Today's Focus",
-//                    fontSize = 18.sp,
-//                    fontWeight = FontWeight.SemiBold
-//                )
-//
-//                Spacer(modifier = Modifier.height(8.dp))
-//
-//                Text(
-//                    text = "Take 5 minutes to breathe and relax 🧘",
-//                    fontSize = 15.sp
-//                )
-//            }
-//        }
-
         Spacer(modifier = Modifier.height(24.dp))
 
 

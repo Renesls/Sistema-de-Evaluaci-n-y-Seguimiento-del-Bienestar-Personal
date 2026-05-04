@@ -10,19 +10,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sistemabienestarpersonal.model.Answer
 import com.example.sistemabienestarpersonal.model.Question
 import com.example.sistemabienestarpersonal.model.calculateResults
+import kotlinx.coroutines.delay
 
 @Composable
 fun TestScreen(navController: NavController) {
@@ -33,7 +39,16 @@ fun TestScreen(navController: NavController) {
         Question("Tengo motivación", "Motivación")
     )
 
-    var answers by remember { mutableStateOf(mutableListOf<Answer>()) }
+    val answers = remember { mutableStateMapOf<Question, Int>() }
+    val allAnswered = answers.size == questions.size
+
+    var showValidationError by remember { mutableStateOf(false) }
+    if (showValidationError) {
+        LaunchedEffect(showValidationError) {
+            delay(2000) // 2 seconds
+            showValidationError = false
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -48,24 +63,41 @@ fun TestScreen(navController: NavController) {
         LazyColumn {
             items(questions) { question ->
 
-                var selected by remember { mutableStateOf(0) }
+                val selectedValue = answers[question]
 
                 Column(modifier = Modifier.padding(8.dp)) {
 
                     Text(question.text)
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Row {
                         (1..5).forEach { value ->
+                            val isSelected = selectedValue == value
                             Button(
                                 onClick = {
-                                    selected = value
-
-                                    answers.removeAll { it.question == question }
-                                    answers.add(Answer(question, value))
+                                    answers[question] = value
                                 },
-                                modifier = Modifier.padding(4.dp)
+                                modifier = Modifier.padding(4.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (isSelected) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else {
+                                        MaterialTheme.colorScheme.surface
+                                    }
+                                )
+
                             ) {
-                                Text("$value")
+                                Text(
+                                    text = "$value",
+                                    color = if (isSelected) {
+                                        MaterialTheme.colorScheme.onPrimary
+                                    }
+                                    else {
+                                        MaterialTheme.colorScheme.onSurface
+                                    }
+
+                                )
+
                             }
                         }
                     }
@@ -77,24 +109,36 @@ fun TestScreen(navController: NavController) {
 
         Button(
             onClick = {
-                val results: Map<String, Int> = calculateResults(answers)
-
-                val builder = StringBuilder()
-
-                for (entry in results) {
-                    builder.append(entry.key)
-                    builder.append(":")
-                    builder.append(entry.value)
-                    builder.append(",")
+                if (!allAnswered) {
+                    showValidationError = true
+                    return@Button
                 }
 
-                val resultString = builder.toString().dropLast(1)
+
+                val answerList = answers.map {
+                    Answer(it.key, it.value)
+                }
+
+                val results = calculateResults(answerList)
+
+                val resultString = results.entries.joinToString(",") {
+                    "${it.key}:${it.value}"
+                }
 
                 navController.navigate("result/$resultString")
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = allAnswered
         ) {
             Text("Finalizar")
+        }
+
+        if (showValidationError) {
+            Text(
+                text = "Por favor responde todas las preguntas",
+                color = Color.Red,
+                fontSize = 14.sp
+            )
         }
     }
 }
