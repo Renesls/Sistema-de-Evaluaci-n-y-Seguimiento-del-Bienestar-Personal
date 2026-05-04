@@ -46,7 +46,11 @@ fun ResultScreen(resultData: String, navController: NavController) {
 
         Button(
             onClick = {
-                navController.navigate("home")
+                navController.navigate("home") {
+                    popUpTo("home") {
+                        inclusive = true
+                    }
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {

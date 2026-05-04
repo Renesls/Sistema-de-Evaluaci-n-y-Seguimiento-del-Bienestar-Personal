@@ -6,16 +6,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sistemabienestarpersonal.ui.screen.ResultScreen
 import com.example.sistemabienestarpersonal.ui.screen.TestScreen
+import com.example.sistemabienestarpersonal.ui.screen.HomeScreen
 
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = "test") {
+    NavHost(navController, startDestination = "home") {
 
-        composable("test") {
-            TestScreen(navController)
-        }
+        composable("home") {HomeScreen(navController)}
+
+        composable("test") {TestScreen(navController)}
 
         composable("result/{data}") { backStackEntry ->
             val data = backStackEntry.arguments?.getString("data") ?: ""
