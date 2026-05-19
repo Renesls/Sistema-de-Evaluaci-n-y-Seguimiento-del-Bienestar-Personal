@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,14 +39,12 @@ fun SplashScreen(
                 animationSpec = tween(1000)
             )
         }
-
         launch {
             alpha.animateTo(
                 targetValue = 1f,
                 animationSpec = tween(1200)
             )
         }
-
         delay(2500)
         onNavigateNext()
     }
@@ -70,12 +68,11 @@ fun SplashScreen(
                     .scale(scale.value)
                     .alpha(alpha.value)
                     .clip(CircleShape)
-                    .background(White),
+                    .background(Color.White),
                 contentAlignment = Alignment.Center
             ) {
-                // Icono simple con texto
                 Text(
-                    text = "🧘o",
+                    text = "🧘",
                     fontSize = 70.sp
                 )
             }
@@ -86,21 +83,21 @@ fun SplashScreen(
                 text = "Bienestar Personal",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
-                color = White,
+                color = Color.White,
                 modifier = Modifier.alpha(alpha.value)
             )
 
             Text(
                 text = "Tu herramienta de evolución",
                 fontSize = 18.sp,
-                color = White.copy(alpha = 0.8f),
+                color = Color.White.copy(alpha = 0.8f),
                 modifier = Modifier.alpha(alpha.value)
             )
 
             Spacer(modifier = Modifier.height(60.dp))
 
             CircularProgressIndicator(
-                color = White,
+                color = Color.White,
                 modifier = Modifier.alpha(alpha.value)
             )
         }
