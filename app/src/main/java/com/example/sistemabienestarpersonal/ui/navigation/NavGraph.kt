@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.sistemabienestarpersonal.ui.screen.*
+import com.example.sistemabienestarpersonal.viewmodel.AuthViewModel
 import com.example.sistemabienestarpersonal.viewmodel.WellbeingViewModel
 
 @Composable
@@ -24,8 +25,28 @@ fun NavGraph() {
         composable<SplashRoute> {
             SplashScreen(
                 onNavigateNext = {
-                    navController.navigate(WelcomeRoute) {
+                    navController.navigate(AuthRoute) {
                         popUpTo(SplashRoute) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable<AuthRoute> {
+            val authViewModel: AuthViewModel = viewModel()
+            AuthScreen(
+                isLoading = authViewModel.isLoading.value,
+                apiErrorMessage = authViewModel.errorMessage.value,
+                onClearApiError = { authViewModel.clearError() },
+                onLogin = { email, password, onSuccess ->
+                    authViewModel.login(email = email, password = password, onSuccess = onSuccess)
+                },
+                onRegister = { name, email, password, onSuccess ->
+                    authViewModel.register(name = name, email = email, password = password, onSuccess = onSuccess)
+                },
+                onAuthSuccess = {
+                    navController.navigate(WelcomeRoute) {
+                        popUpTo(AuthRoute) { inclusive = true }
                     }
                 }
             )

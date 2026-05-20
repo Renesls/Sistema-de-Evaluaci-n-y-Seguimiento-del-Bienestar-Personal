@@ -9,6 +9,9 @@ object SplashRoute
 object WelcomeRoute
 
 @Serializable
+object AuthRoute
+
+@Serializable
 object TestRoute
 
 @Serializable
