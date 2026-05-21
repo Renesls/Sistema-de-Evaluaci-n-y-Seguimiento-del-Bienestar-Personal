@@ -10,9 +10,15 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
+<<<<<<< HEAD
 // Colores para Bienestar Personal
 val BluePrimary = Color(0xFF1A73E8)
 val BlueSecondary = Color(0xFF4285F4)
 val GreenWellbeing = Color(0xFF34A853)
 val SoftBackground = Color(0xFFF8F9FA)
 val TextPrimary = Color(0xFF202124)
+=======
+val BluePrimary = Color(0xFF1E88E5)
+val BlueSecondary = Color(0xFF64B5F6)
+val SoftBackground = Color(0xFFF5F7FA)
+>>>>>>> Mario

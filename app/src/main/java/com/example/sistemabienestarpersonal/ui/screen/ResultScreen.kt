@@ -33,7 +33,11 @@ fun ResultScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
+<<<<<<< HEAD
                 text = "Tu Perfil Inicial",
+=======
+                text = "Tu Perfil Actual",
+>>>>>>> Mario
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = BluePrimary

@@ -1,18 +1,28 @@
 package com.example.sistemabienestarpersonal.ui.screen
 
+<<<<<<< HEAD
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+=======
+>>>>>>> Mario
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
+<<<<<<< HEAD
+=======
+import androidx.compose.material.icons.filled.Person
+>>>>>>> Mario
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+<<<<<<< HEAD
 import androidx.compose.ui.graphics.vector.ImageVector
+=======
+>>>>>>> Mario
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,7 +33,12 @@ import com.example.sistemabienestarpersonal.ui.theme.SoftBackground
 @Composable
 fun WelcomeScreen(
     onStartEvaluation: () -> Unit,
+<<<<<<< HEAD
     onViewHistory: () -> Unit
+=======
+    onViewHistory: () -> Unit,
+    onViewProfile: () -> Unit
+>>>>>>> Mario
 ) {
     Scaffold(
         containerColor = SoftBackground
@@ -56,7 +71,10 @@ fun WelcomeScreen(
 
             Spacer(modifier = Modifier.height(48.dp))
 
+<<<<<<< HEAD
             // Card ilustrativa simple
+=======
+>>>>>>> Mario
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(24.dp),
@@ -107,6 +125,24 @@ fun WelcomeScreen(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Ver Historial", fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
+<<<<<<< HEAD
+=======
+            
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedButton(
+                onClick = onViewProfile,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(16.dp),
+                border = ButtonDefaults.outlinedButtonBorder.copy(width = 1.5.dp)
+            ) {
+                Icon(Icons.Default.Person, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Mi Perfil", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
+>>>>>>> Mario
         }
     }
 }

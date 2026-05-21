@@ -14,16 +14,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+<<<<<<< HEAD
 import com.example.sistemabienestarpersonal.data.HistoryManager
 import com.example.sistemabienestarpersonal.ui.theme.BluePrimary
 import com.example.sistemabienestarpersonal.ui.theme.SoftBackground
+=======
+import com.example.sistemabienestarpersonal.ui.theme.BluePrimary
+import com.example.sistemabienestarpersonal.ui.theme.SoftBackground
+import com.example.sistemabienestarpersonal.viewmodel.WellbeingViewModel
+>>>>>>> Mario
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
+<<<<<<< HEAD
     onBack: () -> Unit
 ) {
     val history = HistoryManager.history
+=======
+    viewModel: WellbeingViewModel,
+    onBack: () -> Unit
+) {
+    // Obtenemos la lista del ViewModel
+    val history = viewModel.historialResultados
+>>>>>>> Mario
 
     Scaffold(
         containerColor = SoftBackground,
@@ -41,7 +55,13 @@ fun HistoryScreen(
     ) { padding ->
         if (history.isEmpty()) {
             Box(
+<<<<<<< HEAD
                 modifier = Modifier.fillMaxSize().padding(padding),
+=======
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+>>>>>>> Mario
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -79,16 +99,27 @@ fun HistoryScreen(
                                     fontWeight = FontWeight.Bold
                                 )
                                 Text(
+<<<<<<< HEAD
                                     text = "ID: ${result.id}",
                                     fontSize = 10.sp,
                                     color = Color.LightGray
+=======
+                                    text = "Pts: ${result.score}",
+                                    fontSize = 12.sp,
+                                    color = Color.DarkGray,
+                                    fontWeight = FontWeight.Bold
+>>>>>>> Mario
                                 )
                             }
                             
                             Spacer(modifier = Modifier.height(8.dp))
                             
                             Text(
+<<<<<<< HEAD
                                 text = result.generalInterpretation,
+=======
+                                text = result.interpretation,
+>>>>>>> Mario
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = Color.DarkGray

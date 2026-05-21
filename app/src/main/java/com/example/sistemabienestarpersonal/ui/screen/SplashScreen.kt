@@ -16,7 +16,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
+<<<<<<< HEAD
 import androidx.compose.ui.graphics.Color.Companion.White
+=======
+import androidx.compose.ui.graphics.Color
+>>>>>>> Mario
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,22 +37,31 @@ fun SplashScreen(
     val alpha = remember { Animatable(0f) }
 
     LaunchedEffect(Unit) {
+<<<<<<< HEAD
         // Animación de entrada
+=======
+>>>>>>> Mario
         launch {
             scale.animateTo(
                 targetValue = 1f,
                 animationSpec = tween(1000)
             )
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> Mario
         launch {
             alpha.animateTo(
                 targetValue = 1f,
                 animationSpec = tween(1200)
             )
         }
+<<<<<<< HEAD
 
         // Espera tipo splash
+=======
+>>>>>>> Mario
         delay(2500)
         onNavigateNext()
     }
@@ -72,10 +85,16 @@ fun SplashScreen(
                     .scale(scale.value)
                     .alpha(alpha.value)
                     .clip(CircleShape)
+<<<<<<< HEAD
                     .background(White),
                 contentAlignment = Alignment.Center
             ) {
                 // Icono simple con texto
+=======
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+>>>>>>> Mario
                 Text(
                     text = "🧘",
                     fontSize = 70.sp
@@ -88,21 +107,33 @@ fun SplashScreen(
                 text = "Bienestar Personal",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
+<<<<<<< HEAD
                 color = White,
+=======
+                color = Color.White,
+>>>>>>> Mario
                 modifier = Modifier.alpha(alpha.value)
             )
 
             Text(
                 text = "Tu herramienta de evolución",
                 fontSize = 18.sp,
+<<<<<<< HEAD
                 color = White.copy(alpha = 0.8f),
+=======
+                color = Color.White.copy(alpha = 0.8f),
+>>>>>>> Mario
                 modifier = Modifier.alpha(alpha.value)
             )
 
             Spacer(modifier = Modifier.height(60.dp))
 
             CircularProgressIndicator(
+<<<<<<< HEAD
                 color = White,
+=======
+                color = Color.White,
+>>>>>>> Mario
                 modifier = Modifier.alpha(alpha.value)
             )
         }
