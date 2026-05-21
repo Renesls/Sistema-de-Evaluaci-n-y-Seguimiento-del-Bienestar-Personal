@@ -35,15 +35,7 @@ fun NavGraph() {
         composable<AuthRoute> {
             val authViewModel: AuthViewModel = viewModel()
             AuthScreen(
-                isLoading = authViewModel.isLoading.value,
-                apiErrorMessage = authViewModel.errorMessage.value,
-                onClearApiError = { authViewModel.clearError() },
-                onLogin = { email, password, onSuccess ->
-                    authViewModel.login(email = email, password = password, onSuccess = onSuccess)
-                },
-                onRegister = { name, email, password, onSuccess ->
-                    authViewModel.register(name = name, email = email, password = password, onSuccess = onSuccess)
-                },
+                viewModel = authViewModel,
                 onAuthSuccess = {
                     navController.navigate(WelcomeRoute) {
                         popUpTo(AuthRoute) { inclusive = true }

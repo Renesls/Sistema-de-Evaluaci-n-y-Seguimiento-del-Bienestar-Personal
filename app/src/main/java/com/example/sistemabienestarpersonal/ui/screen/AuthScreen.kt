@@ -44,14 +44,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sistemabienestarpersonal.ui.theme.BluePrimary
 import com.example.sistemabienestarpersonal.ui.theme.SoftBackground
+import com.example.sistemabienestarpersonal.viewmodel.AuthViewModel
 
 @Composable
 fun AuthScreen(
-    isLoading: Boolean,
-    apiErrorMessage: String?,
-    onClearApiError: () -> Unit,
-    onLogin: (email: String, password: String, onSuccess: () -> Unit) -> Unit,
-    onRegister: (name: String, email: String, password: String, onSuccess: () -> Unit) -> Unit,
+    viewModel: AuthViewModel,
     onAuthSuccess: () -> Unit
 ) {
     var isLoginMode by remember { mutableStateOf(true) }
@@ -61,35 +58,16 @@ fun AuthScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    fun validateAndSubmit() {
-        val trimmedEmail = email.trim()
-        val trimmedName = name.trim()
-        errorMessage = null
-        onClearApiError()
+    val isLoading = viewModel.isLoading.value
+    val errorMessage = viewModel.errorMessage.value
 
-        if (!isLoginMode && trimmedName.isBlank()) {
-            errorMessage = "Ingresa tu nombre para crear tu cuenta."
-            return
-        }
-        if (trimmedEmail.isBlank() || !trimmedEmail.contains("@")) {
-            errorMessage = "Ingresa un correo valido."
-            return
-        }
-        if (password.length < 6) {
-            errorMessage = "La contrasena debe tener al menos 6 caracteres."
-            return
-        }
-        if (!isLoginMode && password != confirmPassword) {
-            errorMessage = "Las contrasenas no coinciden."
-            return
-        }
-
+    fun submit() {
+        viewModel.clearError()
         if (isLoginMode) {
-            onLogin(trimmedEmail, password, onAuthSuccess)
+            viewModel.login(email, password, onAuthSuccess)
         } else {
-            onRegister(trimmedName, trimmedEmail, password, onAuthSuccess)
+            viewModel.register(name, email, password, confirmPassword, onAuthSuccess)
         }
     }
 
@@ -110,7 +88,7 @@ fun AuthScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Inicia sesion o crea tu cuenta para continuar",
+                text = "Inicia sesión o crea tu cuenta para continuar",
                 color = Color.Gray,
                 textAlign = TextAlign.Center
             )
@@ -130,12 +108,11 @@ fun AuthScreen(
                 ) {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         AuthModeButton(
-                            text = "Iniciar sesion",
+                            text = "Iniciar sesión",
                             selected = isLoginMode,
                             onClick = {
                                 isLoginMode = true
-                                errorMessage = null
-                                onClearApiError()
+                                viewModel.clearError()
                             },
                             modifier = Modifier.weight(1f)
                         )
@@ -145,8 +122,7 @@ fun AuthScreen(
                             selected = !isLoginMode,
                             onClick = {
                                 isLoginMode = false
-                                errorMessage = null
-                                onClearApiError()
+                                viewModel.clearError()
                             },
                             modifier = Modifier.weight(1f)
                         )
@@ -172,7 +148,7 @@ fun AuthScreen(
                         value = email,
                         onValueChange = { email = it },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Correo electronico") },
+                        label = { Text("Correo electrónico") },
                         leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
                         singleLine = true,
                         shape = RoundedCornerShape(14.dp),
@@ -184,7 +160,7 @@ fun AuthScreen(
                         value = password,
                         onValueChange = { password = it },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Contrasena") },
+                        label = { Text("Contraseña") },
                         leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                         trailingIcon = {
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
@@ -206,7 +182,7 @@ fun AuthScreen(
                             value = confirmPassword,
                             onValueChange = { confirmPassword = it },
                             modifier = Modifier.fillMaxWidth(),
-                            label = { Text("Confirmar contrasena") },
+                            label = { Text("Confirmar contraseña") },
                             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                             trailingIcon = {
                                 IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
@@ -223,11 +199,10 @@ fun AuthScreen(
                         )
                     }
 
-                    val finalError = errorMessage ?: apiErrorMessage
-                    if (finalError != null) {
+                    if (errorMessage != null) {
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = finalError,
+                            text = errorMessage,
                             color = Color(0xFFB3261E),
                             fontSize = 13.sp
                         )
@@ -235,7 +210,7 @@ fun AuthScreen(
 
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(
-                        onClick = { validateAndSubmit() },
+                        onClick = { submit() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(54.dp),
@@ -260,14 +235,13 @@ fun AuthScreen(
                     TextButton(
                         onClick = {
                             isLoginMode = !isLoginMode
-                            errorMessage = null
-                            onClearApiError()
+                            viewModel.clearError()
                         },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         enabled = !isLoading
                     ) {
                         Text(
-                            if (isLoginMode) "No tienes cuenta? Registrate" else "Ya tienes cuenta? Inicia sesion"
+                            if (isLoginMode) "¿No tienes cuenta? Regístrate" else "¿Ya tienes cuenta? Inicia sesión"
                         )
                     }
                 }
