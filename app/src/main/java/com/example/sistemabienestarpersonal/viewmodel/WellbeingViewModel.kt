@@ -1,10 +1,12 @@
 package com.example.sistemabienestarpersonal.viewmodel
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sistemabienestarpersonal.data.api.WellbeingApiService
+import com.example.sistemabienestarpersonal.data.repository.EvaluationResultRepository
 import com.example.sistemabienestarpersonal.model.EvaluationResult
 import com.example.sistemabienestarpersonal.model.Scenario
 import kotlinx.coroutines.launch
@@ -12,7 +14,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class WellbeingViewModel : ViewModel() {
+class WellbeingViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = EvaluationResultRepository(application)
     
     // 1. Instancia de la API falsa
     private val apiService = WellbeingApiService()
@@ -62,6 +65,8 @@ class WellbeingViewModel : ViewModel() {
             // Terminó el test, generar resultado
             val resultadoFinal = generarResultado(puntajeAcumulado.value)
             historialResultados.add(0, resultadoFinal) // Agregar al inicio de la lista
+            // Persistir el resultado en DataStore
+            viewModelScope.launch { repository.addResult(resultadoFinal) }
             
             alTerminar(resultadoFinal.interpretation)
         }
@@ -70,9 +75,19 @@ class WellbeingViewModel : ViewModel() {
     // Limpiar el historial (Para la pantalla de Perfil)
     fun borrarHistorial() {
         historialResultados.clear()
+        viewModelScope.launch { repository.clearAll() }
     }
 
     // Lógica privada separada de la Vista (Buena práctica POO/MVVM)
+    // Dashboard state
+    var dashboardStats = mutableStateOf(com.example.sistemabienestarpersonal.data.repository.AggregatedStats(0,0.0,emptyMap(),emptyMap(),emptyMap()))
+
+    /** Load aggregated stats for the dashboard */
+    fun loadDashboardStats() {
+        viewModelScope.launch {
+            dashboardStats.value = repository.getAggregatedStats()
+        }
+    }
     private fun generarResultado(puntajeTotal: Int): EvaluationResult {
         val interpretacion = when {
             puntajeTotal >= 12 -> "Tu perfil es altamente resiliente. Manejas muy bien el estrés y tus decisiones son acertadas."

@@ -22,7 +22,8 @@ import com.example.sistemabienestarpersonal.viewmodel.WellbeingViewModel
 @Composable
 fun ProfileScreen(
     viewModel: WellbeingViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onDashboardNavigate: () -> Unit
 ) {
     val totalTests = viewModel.historialResultados.size
 
@@ -96,6 +97,19 @@ fun ProfileScreen(
                 Icon(Icons.Default.Delete, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Borrar Historial", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = onDashboardNavigate,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = BluePrimary)
+            ) {
+                Text("Ver Dashboard", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
             }
         }
     }
