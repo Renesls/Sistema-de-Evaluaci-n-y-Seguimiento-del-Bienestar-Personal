@@ -9,15 +9,6 @@ object SplashRoute
 object WelcomeRoute
 
 @Serializable
-<<<<<<< HEAD
-object TestRoute
-
-@Serializable
-data class ResultRoute(val scoreSummary: String)
-
-@Serializable
-object HistoryRoute
-=======
 object AuthRoute
 
 @Serializable
@@ -31,4 +22,6 @@ object HistoryRoute
 
 @Serializable
 object ProfileRoute
->>>>>>> Mario
+
+@Serializable
+object DashboardRoute

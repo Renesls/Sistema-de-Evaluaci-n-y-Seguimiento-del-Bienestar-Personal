@@ -112,10 +112,9 @@ fun NavGraph() {
             )
         }
         
-        composable<ProfileRoute> {
-            ProfileScreen(
+        composable<DashboardRoute> {
+            DashboardScreen(
                 viewModel = viewModel,
->>>>>>> Mario
                 onBack = { navController.popBackStack() }
             )
         }
